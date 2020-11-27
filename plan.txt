@@ -1,0 +1,75 @@
+plan
+
+
+Stick men 
+
+starter med en spesifikk karakter -> fight med en spesikikk karakter på samme level(velge karakter?)
+
+lvl 1 folk samme level
+
+turnering motstander av økende level
+
+butikk til å kjøpe våpen osv. ?
+
+
+Modell
+
+Player
+if(butikk) {money variabel}
+HP
+CritChance = 10
+Damage
+Dodge
+
+NPC
+HP
+CriticalStrike
+Damage
+Dodge
+
+
+
+
+view
+
+vise karakter
+vise karakter stats
+starte vanlig kamp knapp
+starte turnering knapp
+    nytt view for kamper
+if (butikk) {knapp for butikk}
+    nytt view med ting å kjøpe
+
+
+
+controller
+
+hvor mye penger man får - Mikael Cassius
+hvor mye xp man får - Mikael Romeus Fanaticus
+damage function - Krillius Caesar
+crit function - Sindra Pilatus
+dodge function - Angie Jolietus
+vinner function - Krill Krall
+
+
+
+
+UKENS TEAMOPPGAVE: NPC Fight Spill!
+En enkel slosskamp mot en computer motstander!
+Oppgaven skal løses ved bruk av MVC oppsettet:)
+- Begge skal ha Healthpoints, som skal minske når de angripes - skal synes på skjermen
+- Player mindre HP og angrepskraft enn NPC - vanskligere å vinne
+- Player skal ha mulighet for critical strike/dobbel angrepskraft
+- NPC skal kunne bomme på player og gjøre 0 skade
+
+- Ikke være mulig å angripe etter 0 i HP (begge)
+- Ikke være mulig å gå under 0 i HP
+ & Vinnerbeskjed på skjermen!:D
+
+Slipp kreativiteten løs!
+Lykke til! Gleder oss til å se resultatene om ei uke! :D
+
+HINT:
+objects
+if setninger
+Math.random()
