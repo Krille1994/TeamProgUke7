@@ -1,13 +1,13 @@
 // Modell
 
 let whichSite = 0;
-let playerHP = 100;
+let playerHP = 1000;
 let playerLevel = 1;
 let playerXP = 0;
 let xpEarned = 0;
 let XPNeeded = playerLevel * 100;
-let playerDamageBonus = 0;
-let playerGold = 100;
+let playerDamageBonus = 20;
+let playerGold = 10000;
 let goldWon = 0;
 let playerCritBonus = 0;
 let playerDodgeBonus = 0;
@@ -47,18 +47,20 @@ let Gold;
 
 let attackTurn = true;
 let isTournament = false;
+let whichChampion;
 
 // Tournament variabler
 // stats: [level, HP, DamageBonus, CritBonus, DodgeBonus]
 const champions = [
-    {name: 'Balder', stats: [2, 220, 3, 2, 2], unlocked: true, alive: true},
-    {name: 'Seronicus', stats: [5, 520, 9, 5, 7], unlocked: false, alive: true},
-    {name: 'Bertrix', stats: [2, 220, 3, 2, 2], unlocked: false, alive: true},
-    {name: 'Foll', stats: [5, 520, 9, 5, 7], unlocked: true, alive: false},
-    {name: 'Hank', stats: [2, 220, 3, 2, 2], unlocked: false, alive: true},
-    {name: 'Whaler', stats: [5, 520, 9, 5, 7], unlocked: false, alive: true},
-    {name: 'Crank', stats: [2, 220, 3, 2, 2], unlocked: false, alive: true},
-    {name: 'Frank', stats: [5, 520, 9, 5, 7], unlocked: false, alive: true}
+    {name: 'Balder', stats: [2, 220, 3, 2, 2], unlocked: true, alive: true, gold: 100, experience: 100},
+    {name: 'Seronicus', stats: [5, 520, 9, 5, 7], unlocked: false, alive: true, gold: 100, experience: 100},
+    {name: 'Bertrix', stats: [2, 220, 3, 2, 2], unlocked: false, alive: true, gold: 100, experience: 100},
+    {name: 'Foll', stats: [5, 520, 9, 5, 7], unlocked: false, alive: true, gold: 100, experience: 100},
+    {name: 'Hank', stats: [2, 220, 3, 2, 2], unlocked: false, alive: true, gold: 100, experience: 100},
+    {name: 'Whaler', stats: [5, 520, 9, 5, 7], unlocked: false, alive: true, gold: 100, experience: 100},
+    {name: 'Crank', stats: [2, 220, 3, 2, 2], unlocked: false, alive: true, gold: 100, experience: 100},
+    {name: 'Frank', stats: [5, 520, 9, 5, 7], unlocked: false, alive: true, gold: 100, experience: 100},
+    {name: 'Rixus', stats: [5, 520, 9, 5, 7], unlocked: false, alive: true, gold: 100, experience: 100}
 ];
 
 
@@ -66,10 +68,13 @@ const champions = [
 const storeItems = [
     {item: 'name1', price: 100, type: 'health', look: 'hei', value: 10, inStock: true},
     {item: 'name2', price: 200, type: 'damage', look: 'hallo', value: 20, inStock: true},
-    {item: 'name3', price: 300, type: 'health', look: 'ollah', inStock: true},
-    {item: 'name4', price: 400, type: 'critical', look: 'elloh', inStock: true},
-    {item: 'name5', price: 500, type: 'health', look: 'hey', inStock: true},
-    {item: 'name6', price: 600, type: 'dodge', look: 'hoy', inStock: true}
+    {item: 'name3', price: 300, type: 'health', look: 'ollah', value: 20, inStock: true},
+    {item: 'name4', price: 400, type: 'critical', look: 'elloh', value: 20, inStock: true},
+    {item: 'name5', price: 500, type: 'health', look: 'hey', value: 20, inStock: true},
+    {item: 'name6', price: 600, type: 'dodge', look: 'hoy', value: 20, inStock: true},
+    {item: 'name7', price: 100, type: 'health', look: 'hei', value: 20, inStock: true},
+    {item: 'name8', price: 200, type: 'damage', look: 'hallo', value: 20, inStock: true},
+    {item: 'name9', price: 100, type: 'health', look: 'hei', value: 10, inStock: true},
     ];
 
 
@@ -96,16 +101,41 @@ function calcChampionDisplayDamage(i) {
 
 // Andre Kalkulasjoner
 function calcPlayerGold(status) {
-    Gold = (4 + Math.floor(Math.random()*16)) * npcLevel;
-    if (status) {playerGold += Gold;}
-    else {Gold = 0;
-    playerGold += Gold;} 
+    if (!isTournament) {
+        Gold = (4 + Math.floor(Math.random()*16)) * npcLevel;
+        if (status) {playerGold += Gold;}
+        else {Gold = 0;}
+    }
+    else {
+        if (status) {
+            Gold = champions[whichChampion].gold;
+        }
+        else {
+            Gold = 0;
+        }
+    }
+    playerGold += Gold;
 }
 function calcPlayerXP(status) {
-    XP = (9 + Math.floor(Math.random()*10)) * npcLevel;
-    if (status) {playerXP += XP;}
-    else { XP = Math.floor(XP / 2);
-    playerXP += XP;}
+    if (!isTournament) {
+        XP = (9 + Math.floor(Math.random()*10)) * npcLevel;
+        if (status) {playerXP += XP;}
+        else { XP = Math.floor(XP / 2);}
+        }
+    else {
+        if (status) {
+            XP = champions[whichChampion].experience;
+            // Setter Champion til dead og unlocker ny
+            champions[whichChampion].alive = false;
+            if (whichChampion < champions.length -1){
+                champions[whichChampion + 1].unlocked = true;
+            }
+        }
+        else {
+            XP = 1
+        }
+    }
+    playerXP += XP;
     levelUp(playerXP);
 }
 function levelUp(playerXPParameter) {
@@ -114,7 +144,7 @@ function levelUp(playerXPParameter) {
         console.log(playerXP, XPNeeded);
         playerLevel += 1;
         XPNeeded = playerLevel * 100;
-        playerHP = playerLevel * 100;
+        playerHP += 100;
         calcPlayerDisplayDamage();
     }
 }
@@ -163,8 +193,6 @@ function calcNpcStats() {
     npcDodgeBonus = -3 + Math.floor(Math.random() * 6) + npcLevel;
     npcDodgeBonus > 20 ? npcDodgeBonus = 20 : npcDodgeBonus;
     npcDodgeBonus < 0 ? npcDodgeBonus = 0 : npcDodgeBonus;
-    // kalkuler resten av statsene
-    // husk det eller så funker ikke battle etter man har spilt tournament
 }
 function readyTournamentBattle(i) {
     resetLog();
@@ -187,7 +215,8 @@ function readyTournamentBattle(i) {
     npcBattleHP = npcHP;
 
     isTournament = true;
-    startTournamentBattle();
+    whichChampion = i;
+    changeSite(1);
 }
 
 function playerAttack() {
@@ -200,7 +229,7 @@ function playerAttack() {
     if (npcBattleHP <= damage) {
         npcBattleHP = 0;
         npcHPBar = 0;
-        winOrLose = 'Winner';
+        winOrLose = 'You Won!';
         calcPlayerGold(true);
         calcPlayerXP(true);
         changeSite(4);
@@ -213,7 +242,7 @@ function playerAttack() {
     
     npcDamageLog = damage;
 
-    isTournament ? startTournamentBattle() : show();
+    show();
 
     setTimeout(npcAttack, 500);
     }
@@ -228,7 +257,7 @@ function npcAttack() {
     if (playerBattleHP <= damage) {
         playerBattleHP = 0;
         playerHPBar = 0;
-        winOrLose = 'Looser';
+        winOrLose = 'You Lost :(';
         calcPlayerGold(false);
         calcPlayerXP(false);
         changeSite(4);
@@ -242,7 +271,7 @@ function npcAttack() {
         playerDamageLog = damage;
         attackTurn = true;
 
-        isTournament ? startTournamentBattle() : show();
+        show();
         
     }
 }

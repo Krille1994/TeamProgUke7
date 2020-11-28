@@ -8,28 +8,49 @@
 }
 
 /* startSite CSS */
+#startSiteDiv {
+    width: 100vw;
+    height: 100vh;
+    background-image: url("bilder/desert.jpg");
+}
 #characterStats {
     width: 20%;
     height: 20%;
-    background-color: aqua;
+    font-size: x-large;
+    padding-left: 0.5%;
 }
 #battle {
+    margin-top: 5%;
+    margin-left: 20%;
+    clear:left;
+    float:left;
     width: 20%;
-    height: 20%;
-    background-color: green;
+    height: 30%;
+    text-align: center;
+    font-size: 3em;
 }
 #store {
+    margin-top: 5%;
+    float:left;
     width: 20%;
-    height: 20%;
-    background-color: rgb(31, 55, 134);
+    height: 30%;
+    text-align: center;
+    font-size: 3em;
 }
 #createTournamentButton {
+    margin-top: 5%;
+    float:left;
     width: 20%;
-    height: 20%;
-    background-color: rgb(127, 36, 139);
+    height: 30%;
+    text-align: center;
+    font-size: 3em;
 }
 
 /* battleSite CSS and tournamentSite CSS*/
+#battleGroundBackground {
+    width: 100%;
+    height: 100%;
+}
 #battleGround {
     display: flex;
     justify-content: space-evenly;
@@ -80,7 +101,7 @@
     left: 25%;
 
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
     grid-template-rows: 1fr 1fr;
     grid-template-areas: 'wins wins wins'
                         'golds leave xps';

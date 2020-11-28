@@ -1,16 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
     <title>Document</title>
+
 </head>
+
 <body>
     <script src="script.js"></script>
 
     <div id="app"></div>
-    
 
     <script>
         app = document.getElementById('app');
@@ -18,62 +20,77 @@
         function show() {
             damageDisplay = (10 + playerDamageBonus) * playerLevel;
             let startSite = `
-                <div id="characterStats">
-                    Level ${playerLevel}<br>
-                    Exp ${playerXP}/${XPNeeded}<br>
-                    Gold ${playerGold} <br>
-                    HP ${playerHP}<br>
-                    Damage ${damageDisplay}<br>
-                    Critical bonus ${playerCritBonus}<br>
-                    Dodge bonus ${playerDodgeBonus}
-                </div>
-                <div id="battle" onclick="startBattle(1)">normal battle</div>
-                <div id="store" onclick="openStore()">store</div>
-                <div id="createTournamentButton" onclick="createTournament()">tournament</div>`;
+                <div id="startSiteDiv">
+                    <div id="characterStats">
+                        Level ${playerLevel}<br>
+                        Exp ${playerXP}/${XPNeeded}<br>
+                        Gold ${playerGold} <br>
+                        HP ${playerHP}<br>
+                        Damage ${damageDisplay}<br>
+                        Critical bonus ${playerCritBonus}<br>
+                        Dodge bonus ${playerDodgeBonus}
+                    </div>
+                    <div id="battle" onclick="startBattle(1)">
+                        <div>Normal Battle</div>
+                        <img src="bilder/battle.png" width="100%" height="90%">
+                    </div>
+                    <div id="store" onclick="openStore()">
+                        <div>Shop</div>
+                        <img src="bilder/market.png" width="100%" height="90%">
+                    </div>
+                    <div id="createTournamentButton" onclick="createTournament()">
+                        <div>Tournament</div>
+                        <img src="bilder/colosseum.png" width="100%" height="90%">
+                    </div>
+                </div>`;
 
             let battleSite = `
-                <div id="battleGround">
-                    <div id="player">
-                        <div class="Logs">
-                            <div class="CritLog">${playerCritLog}</div>
-                            <div class="DodgeLog">${playerDodgeLog}</div>
-                            <div class="DamageLog">${playerDamageLog}</div>
-                        </div><br>
-                        <div>Lvl ${playerLevel}</div>
-                        <div id=playerHP><div style="background-color: rgb(${playerColorRed},${playerColorGreen},0); width: ${playerHPBar}%; height: 100%;">${playerBattleHP}</div></div>
-                        <div id="playerCharacter"></div>
+                <div id="battleGroundBackground" style="${isTournament ? "background-image: url('arena.png')" : "background-image: url('battleBackground.jpg')"}">
+                    <div id="battleGround">
+                        <div id="player">
+                            <div class="Logs">
+                                <div class="CritLog">${playerCritLog}</div>
+                                <div class="DodgeLog">${playerDodgeLog}</div>
+                                <div class="DamageLog">${playerDamageLog}</div>
+                            </div><br>
+                            <div style="${isTournament ? 'color: green;' : ''}">Lvl ${playerLevel}</div>
+                            <div id=playerHP><div style="background-color: rgb(${playerColorRed},${playerColorGreen},0); width: ${playerHPBar}%; height: 100%;">${playerBattleHP}</div></div>
+                            <div id="playerCharacter"></div>
+                        </div>
+                        <div id="npc">
+                            <div class="Logs">
+                                <div class="CritLog">${npcCritLog}</div>
+                                <div class="DodgeLog">${npcDodgeLog}</div>
+                                <div class="DamageLog">${npcDamageLog}</div>
+                            </div><br>
+                            <div style="${isTournament ? 'color: red;' : ''}">Lvl ${npcLevel}</div>
+                            <div id=npcHP><div style="background-color: rgb(${npcColorRed},${npcColorGreen},0); width: ${npcHPBar}%; height: 100%;">${npcBattleHP}</div></div>
+                            <div id="npcCharacter"></div>
+                        </div>
                     </div>
-                    <div id="npc">
-                        <div class="Logs">
-                            <div class="CritLog">${npcCritLog}</div>
-                            <div class="DodgeLog">${npcDodgeLog}</div>
-                            <div class="DamageLog">${npcDamageLog}</div>
-                        </div><br>
-                        <div>Lvl ${npcLevel}</div>
-                        <div id=npcHP><div style="background-color: rgb(${npcColorRed},${npcColorGreen},0); width: ${npcHPBar}%; height: 100%;">${npcBattleHP}</div></div>
-                        <div id="npcCharacter"></div>
-                    </div>
+                    <div id="attack" ${attackTurn ? 'onclick="playerAttack()"' : ''}>Attack</div>
                 </div>
-                <div id="attack" ${attackTurn ? 'onclick="playerAttack()"' : ''}>Attack</div>
                 `;
-            
-                let resultSite = `
-                <div id="battleGround">
-                    <div id="player">
-                        <div id=playerHP><div style="background-color: rgb(${playerColorRed},${playerColorGreen},0); width: ${playerHPBar}%">${playerBattleHP}</div></div>
-                        <div id="playerCharacter"></div>
+
+            let resultSite = `
+                <div id="battleGroundBackground" style="${isTournament ? 'color: green; ' : ''} ${isTournament ? "background-image: url('arena.png')"  : "background-image: url('battleBackground.jpg')"}">
+                    <div id="battleGround">
+                        <div id="player">
+                            <div id=playerHP><div style="background-color: rgb(${playerColorRed},${playerColorGreen},0); width: ${playerHPBar}%">${playerBattleHP}</div></div>
+                            <div id="playerCharacter"></div>
+                        </div>
+                        <div id="npc">
+                            <div id=npcHP><div style="background-color: rgb(${npcColorRed},${npcColorGreen},0); width: ${npcHPBar}%">${npcBattleHP}</div></div>
+                            <div id="npcCharacter"></div>
+                        </div>
                     </div>
-                    <div id="npc">
-                        <div id=npcHP><div style="background-color: rgb(${npcColorRed},${npcColorGreen},0); width: ${npcHPBar}%">${npcBattleHP}</div></div>
-                        <div id="npcCharacter"></div>
+                    <div id="attack">Attack</div>
+                    <div id="resultPopup">
+                        <div id="winOrLoss">${winOrLose}</div>
+                        <div id="goldWon">Gold Won<br>${Gold}</div>
+                        <div id="leaveBattle" ${isTournament ? 'onclick="createTournament()"' : 'onclick="changeSite(0)"'}>Leave Battle</div>
+                        <div id="xpEarned">Experience Earned<br>${XP}</div>
                     </div>
-                </div>
-                <div id="attack">Attack</div>
-                <div id="resultPopup">
-                    <div id="winOrLoss">${winOrLose}</div>
-                    <div id="goldWon">Gold Won<br>${Gold}</div>
-                    <div id="leaveBattle" ${isTournament ? 'onclick="createTournament()"' : 'onclick="changeSite(0)"'}>Leave Battle</div>
-                    <div id="xpEarned">Experience Earned<br>${XP}</div>
                 </div>
                 `;
 
@@ -81,26 +98,26 @@
             if (whichSite == 0) {
                 app.innerHTML = startSite;
             }
-            if (whichSite == 1 ) {
+            if (whichSite == 1) {
                 app.innerHTML = battleSite;
             }
             if (whichSite == 2) {
                 app.innerHTML = storeSite;
             }
-            if (whichSite == 3 ) {
+            if (whichSite == 3) {
                 app.innerHTML = tournamentSite;
             }
-            if (whichSite == 4 ) {
+            if (whichSite == 4) {
                 app.innerHTML = resultSite;
             }
         }
 
         // store
 
-function openStore() {
-    damageDisplay = (10 + playerDamageBonus) * playerLevel;
-    let html = '';
-    html = `<div id="characterStats">
+        function openStore() {
+            damageDisplay = (10 + playerDamageBonus) * playerLevel;
+            let html = '';
+            html = `<div id="characterStats">
                 Level ${playerLevel}<br>
                 Exp ${playerXP}/${XPNeeded}<br>
                 Gold ${playerGold} <br>
@@ -110,27 +127,27 @@ function openStore() {
                 Dodge bonus ${playerDodgeBonus}
             </div>
             <div id="insideStore">`;
-    for(let i = 0; i<storeItems.length; i++) {
-            html += `<div class="item" ${storeItems[i].inStock ? 'onclick="purchaseItem('+i+')"' : ''}>
+            for (let i = 0; i < storeItems.length; i++) {
+                html += `<div class="item" ${storeItems[i].inStock ? 'onclick="purchaseItem(' + i + ')"' : ''}>
                         <div>${storeItems[i].item}</div>
                         <div>${storeItems[i].look}</div>
                         <div>${storeItems[i].inStock ? storeItems[i].price : 'Sold Out'}</div>
                     </div>
                     `;
-    }
+            }
 
-    html += `</div>
+            html += `</div>
     <div onclick="changeSite(0)">Leave Store</div>`;
-    app.innerHTML = html;
-}
+            app.innerHTML = html;
+        }
 
-function createTournament() {
-    let html = '<div id="tournament">';
+        function createTournament() {
+            let html = '<div id="tournament">';
 
-    for (let i = 0; i < champions.length; i++) {
-        let damage = calcChampionDisplayDamage(i);
-        let color = championsAvailable(i);
-        html += `<div style="background-color: ${color}">
+            for (let i = 0; i < champions.length; i++) {
+                let damage = calcChampionDisplayDamage(i);
+                let color = championsAvailable(i);
+                html += `<div style="background-color: ${color}">
                     <div>${champions[i].name}</div>
                     <div>Lvl ${champions[i].stats[0]}</div>
                     <div>HP ${champions[i].stats[1]}</div>
@@ -140,55 +157,28 @@ function createTournament() {
                 </div>
                 
         `;
-    }
-    html += `</div>
+            }
+            html += `</div>
             <div id="tournamentButton">Enter Tournament</div>
             <div onclick="leaveTournament()">Leave Tournament</div>
             `;
-    app.innerHTML = html;
-}
+            app.innerHTML = html;
+        }
 
-function championsAvailable(index) {
-    if (!champions[index].unlocked) {
-        return 'grey;';
-    }
-    else if (champions[index].unlocked && champions[index].alive) {
-        return 'green;"' + 'onclick="readyTournamentBattle('+index+')';
-    }
-    else if (!champions[index].alive) {
-        return 'red;';
-    }
-}
-
-function startTournamentBattle() {
-    app.innerHTML = `
-                <div id="battleGround">
-                    <div id="player">
-                        <div class="Logs">
-                            <div class="CritLog">${playerCritLog}</div>
-                            <div class="DodgeLog">${playerDodgeLog}</div>
-                            <div class="DamageLog">${playerDamageLog}</div>
-                        </div><br>
-                        <div>Lvl ${playerLevel}</div>
-                        <div id=playerHP><div style="background-color: rgb(${playerColorRed},${playerColorGreen},0); width: ${playerHPBar}%; height: 100%;">${playerBattleHP}</div></div>
-                        <div id="playerCharacter"></div>
-                    </div>
-                    <div id="npc">
-                        <div class="Logs">
-                            <div class="CritLog">${npcCritLog}</div>
-                            <div class="DodgeLog">${npcDodgeLog}</div>
-                            <div class="DamageLog">${npcDamageLog}</div>
-                        </div><br>
-                        <div>Lvl ${npcLevel}</div>
-                        <div id=npcHP><div style="background-color: rgb(${npcColorRed},${npcColorGreen},0); width: ${npcHPBar}%; height: 100%;">${npcBattleHP}</div></div>
-                        <div id="npcCharacter"></div>
-                    </div>
-                </div>
-                <div id="attack" ${attackTurn ? 'onclick="playerAttack()"' : ''}>Attack</div>
-                `;
-}
+        function championsAvailable(index) {
+            if (!champions[index].unlocked) {
+                return 'grey;';
+            }
+            else if (champions[index].unlocked && champions[index].alive) {
+                return 'green;"' + 'onclick="readyTournamentBattle(' + index + ')';
+            }
+            else if (!champions[index].alive) {
+                return 'red;';
+            }
+        }
 
     </script>
-    
+
 </body>
+
 </html>
