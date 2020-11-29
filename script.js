@@ -1,13 +1,13 @@
 // Modell
 
 let whichSite = 0;
-let playerHP = 1000;
+let playerHP = 100;
 let playerLevel = 1;
 let playerXP = 0;
 let xpEarned = 0;
 let XPNeeded = playerLevel * 100;
-let playerDamageBonus = 20;
-let playerGold = 10000;
+let playerDamageBonus = 0;
+let playerGold = 0;
 let goldWon = 0;
 let playerCritBonus = 0;
 let playerDodgeBonus = 0;
@@ -22,6 +22,8 @@ let npcLevel = 1;
 let npcDamageBonus = 0;
 let npcCritBonus = 0;
 let npcDodgeBonus = 0;
+
+let npcCharacter = '';
 
 // battle variabler
 let playerBattleHP;
@@ -52,29 +54,29 @@ let whichChampion;
 // Tournament variabler
 // stats: [level, HP, DamageBonus, CritBonus, DodgeBonus]
 const champions = [
-    {name: 'Balder', stats: [2, 220, 3, 2, 2], unlocked: true, alive: true, gold: 100, experience: 100},
-    {name: 'Seronicus', stats: [5, 520, 9, 5, 7], unlocked: false, alive: true, gold: 100, experience: 100},
-    {name: 'Bertrix', stats: [2, 220, 3, 2, 2], unlocked: false, alive: true, gold: 100, experience: 100},
-    {name: 'Foll', stats: [5, 520, 9, 5, 7], unlocked: false, alive: true, gold: 100, experience: 100},
-    {name: 'Hank', stats: [2, 220, 3, 2, 2], unlocked: false, alive: true, gold: 100, experience: 100},
-    {name: 'Whaler', stats: [5, 520, 9, 5, 7], unlocked: false, alive: true, gold: 100, experience: 100},
-    {name: 'Crank', stats: [2, 220, 3, 2, 2], unlocked: false, alive: true, gold: 100, experience: 100},
-    {name: 'Frank', stats: [5, 520, 9, 5, 7], unlocked: false, alive: true, gold: 100, experience: 100},
-    {name: 'Rixus', stats: [5, 520, 9, 5, 7], unlocked: false, alive: true, gold: 100, experience: 100}
+    {name: 'Balder', stats: [2, 220, 1, 2, 2], unlocked: true, alive: true, gold: 100, experience: 100, character: ['<img src="bilder/balder.png">', '<img src="bilder/balderDead.png">', '<img src="bilder/characterLocked.png">']},
+    {name: 'Seronicus', stats: [5, 520, 2, 5, 7], unlocked: false, alive: true, gold: 250, experience: 250, character: ['<img src="bilder/seronicus.png">', '<img src="bilder/seronicusDead.png">', '<img src="bilder/characterLocked.png">']},
+    {name: 'Bertrix', stats: [10, 1200, 4, 7, 0], unlocked: false, alive: true, gold: 500, experience: 500, character: ['<img src="bilder/bertrix.png">', '<img src="bilder/bertrixDead.png">', '<img src="bilder/characterLocked.png">']},
+    {name: 'Foll', stats: [15, 1800, 10, 2, 15], unlocked: false, alive: true, gold: 750, experience: 750, character: ['<img src="bilder/foll.png">', '<img src="bilder/follDead.png">', '<img src="bilder/characterLocked.png">']},
+    {name: 'Hank', stats: [20, 2220, 20, 2, 2], unlocked: false, alive: true, gold: 1000, experience: 1000, character: ['<img src="bilder/hank.png">', '<img src="bilder/hankDead.png">', '<img src="bilder/characterLocked.png">']},
+    {name: 'Whaler', stats: [25, 520, 15, 5, 7], unlocked: false, alive: true, gold: 1250, experience: 1250, character: ['<img src="bilder/whaler.png">', '<img src="bilder/whalerDead.png">', '<img src="bilder/characterLocked.png">']},
+    {name: 'Crank', stats: [35, 220, 30, 2, 2], unlocked: false, alive: true, gold: 1750, experience: 1750, character: ['<img src="bilder/crank.png">', '<img src="bilder/crankDead.png">', '<img src="bilder/characterLocked.png">']},
+    {name: 'Frank', stats: [50, 6000, 35, 5, 7], unlocked: false, alive: true, gold: 2500, experience: 2500, character: ['<img src="bilder/frank.png">', '<img src="bilder/frankDead.png">', '<img src="bilder/characterLocked.png">']},
+    {name: 'Rixus', stats: [100, 12000, 50, 20, 20], unlocked: false, alive: true, gold: 5000, experience: 5000, character: ['<img src="bilder/rixus.png">', '<img src="bilder/rixusDead.png">', '<img src="bilder/characterLocked.png">']}
 ];
 
 
 // Store
 const storeItems = [
-    {item: 'name1', price: 100, type: 'health', look: 'hei', value: 10, inStock: true},
-    {item: 'name2', price: 200, type: 'damage', look: 'hallo', value: 20, inStock: true},
-    {item: 'name3', price: 300, type: 'health', look: 'ollah', value: 20, inStock: true},
-    {item: 'name4', price: 400, type: 'critical', look: 'elloh', value: 20, inStock: true},
-    {item: 'name5', price: 500, type: 'health', look: 'hey', value: 20, inStock: true},
-    {item: 'name6', price: 600, type: 'dodge', look: 'hoy', value: 20, inStock: true},
-    {item: 'name7', price: 100, type: 'health', look: 'hei', value: 20, inStock: true},
-    {item: 'name8', price: 200, type: 'damage', look: 'hallo', value: 20, inStock: true},
-    {item: 'name9', price: 100, type: 'health', look: 'hei', value: 10, inStock: true},
+    {item: 'Ring of Health', price: 100, type: 'health', look: '<img class="itemframe" src="bilder/Ring_of_Health.png">', value: 50, inStock: true},
+    {item: 'Blades of Attack', price: 200, type: 'damage', look: '<img class="itemframe" src="bilder/Blades_of_Attack.png">', value: 5, inStock: true},
+    {item: 'Gem of Vitality', price: 300, type: 'health', look: '<img class="itemframe" src="bilder/Gem_of_Vitiality.png">', value: 150, inStock: true},
+    {item: 'Necklace of Critical Strike', price: 400, type: 'critical', look: '<img class="itemframe" src="bilder/Necklace_Critical_Strike.png">', value: 10, inStock: true},
+    {item: 'Gauntlets of Strenght', price: 500, type: 'damage', look: '<img class="itemframe" src="bilder/Gauntlets_of_Strength.png">', value: 10, inStock: true},
+    {item: 'Boots of Reflexes', price: 600, type: 'dodge', look: '<img class="itemframe" src="bilder/Boots_Reflexes.png">', value: 10, inStock: true},
+    {item: 'name7', price: 100, type: 'health', look: '<img src="bilder/balder.png">', value: 20, inStock: true},
+    {item: 'name8', price: 200, type: 'damage', look: '<img src="bilder/balder.png">', value: 20, inStock: true},
+    {item: 'name9', price: 100, type: 'health', look: '<img src="bilder/balder.png">', value: 10, inStock: true},
     ];
 
 
@@ -209,6 +211,8 @@ function readyTournamentBattle(i) {
     playerColorRed = 0;
     playerHPBar = 100;
     npcHPBar = 100;
+
+    npcCharacter = champions[i].character;
 
     attackTurn = true;
     playerBattleHP = playerHP;

@@ -3,6 +3,7 @@
     padding: 0;
 }
 #app {
+    user-select: none;
     height: 100vh;
     width: 100vw;
 }
@@ -45,6 +46,65 @@
     text-align: center;
     font-size: 3em;
 }
+#arenaBackgroundDiv {
+    background-image: url("bilder/arenaBackground.png");
+    height: 100%;
+    width: 100%;
+}
+#tournament {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+    grid-template-areas: 'balder foll crank'
+                        'seronicus hank frank'
+                        'bertrix whaler rixus';
+}
+.championBox0 {
+    grid-area: balder;
+}
+.championBox1 {
+    grid-area: seronicus;
+}
+.championBox2 {
+    grid-area: bertrix;
+}
+.championBox3 {
+    grid-area: foll;
+}
+.championBox4 {
+    grid-area: hank;
+}
+.championBox5 {
+    grid-area: whaler;
+}
+.championBox6 {
+    grid-area: crank;
+}
+.championBox7 {
+    grid-area: frank;
+}
+.championBox8 {
+    grid-area: rixus;
+}
+.championBox {
+    margin: 3%;
+    color: white;
+    text-shadow: 2px 2px 3px black;
+    font-weight: bold;
+    /* background: rgba(0, 0, 0, 0.507); */
+}
+.championStats {
+    float: left;
+}
+.championImage {
+    float: left;
+}
+.championStats {
+    margin-right: 2%;
+    font-size: large;
+}
+
+
 
 /* battleSite CSS and tournamentSite CSS*/
 #battleGroundBackground {
@@ -150,13 +210,43 @@
 
 /* storeSite CSS */
 #insideStore {
-    width: 500px;
-    background-color: lightblue;
+    background-image: url("bilder/storeShelf.png");
+    width: 70%;
+    height: 100%;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     grid-template-rows: 1fr 1fr 1fr;
 }
 .item{
-    background-color: lightgreen;
+    /* background-color: lightgreen; */
+    margin-top: 25%;
     text-align: center;
+}
+
+.itemframe {
+    border-radius: 25%;
+    border-style: inset;
+    border-color:grey;
+}
+
+#characterStatsStore {
+    float: left;
+    width: 20%;
+    height: 20%;
+    font-size: x-large;
+    padding-left: 0.5%;
+}
+#leaveStore {
+    float: left;
+    clear: left;
+    margin-top: 10%;
+    margin-left: 0.5%;
+}
+.buyButton {    
+    background-color: tomato;
+    margin: auto;
+    padding: 0.2%;
+    width: 20%;
+    border: 0.5px solid black;
+    border-radius: 20%;
 }
