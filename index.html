@@ -53,7 +53,7 @@
                                 <div class="DodgeLog">${playerDodgeLog}</div>
                                 <div class="DamageLog">${playerDamageLog}</div>
                             </div><br>
-                            <div style="${isTournament ? 'color: green;' : ''}">Lvl ${playerLevel}</div>
+                            <div style="-webkit-text-stroke: 0.5px red; font-size: xx-large;font-weight: bold; ${isTournament ? 'color: red;' : ''}">Lvl ${playerLevel}</div>
                             <div id=playerHP><div style="background-color: rgb(${playerColorRed},${playerColorGreen},0); width: ${playerHPBar}%; height: 100%;">${playerBattleHP}</div></div>
                             <div id="playerCharacter"></div>
                         </div>
@@ -63,7 +63,7 @@
                                 <div class="DodgeLog">${npcDodgeLog}</div>
                                 <div class="DamageLog">${npcDamageLog}</div>
                             </div><br>
-                            <div style="${isTournament ? 'color: red;' : ''}">Lvl ${npcLevel}</div>
+                            <div style="-webkit-text-stroke: 0.5px red; font-size: xx-large;font-weight: bold; ${isTournament ? 'color: red;' : ''}">Lvl ${npcLevel}</div>
                             <div id=npcHP><div style="background-color: rgb(${npcColorRed},${npcColorGreen},0); width: ${npcHPBar}%; height: 100%;">${npcBattleHP}</div></div>${isTournament ? '<div>' + champions[whichChampion].character[0] + '</div>' : 
                             '<div id="npcCharacter"></div>'}
                         </div>
@@ -132,9 +132,11 @@
             for (let i = 0; i < storeItems.length; i++) {
                 html += `<div class="item">
                         <div>${storeItems[i].item}</div>
-                        <div>${storeItems[i].look}</div>
-                        <div>${storeItems[i].inStock ? 'Price: ' + storeItems[i].price + ' Gold': 'Sold Out'}</div>
-                        ${storeItems[i].inStock ? '<div class="buyButton" onclick="purchaseItem(' + i + ')">Buy Item</div>' : ''} 
+                        <div class="tooltipContainer">${storeItems[i].look}
+                            <span class="tooltipText">${storeItems[i].info}</span>    
+                        </div>
+                        <div style="color: gold;">${storeItems[i].inStock ? 'Price: ' + storeItems[i].price + ' Gold': 'Sold Out'}</div>
+                        ${storeItems[i].inStock ? '<div style="color: black;" class="buyButton" onclick="purchaseItem(' + i + ')">Buy Item</div>' : ''} 
                     </div>
                     `;
             }

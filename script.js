@@ -6,8 +6,8 @@ let playerLevel = 1;
 let playerXP = 0;
 let xpEarned = 0;
 let XPNeeded = playerLevel * 100;
-let playerDamageBonus = 0;
-let playerGold = 0;
+let playerDamageBonus = 1;
+let playerGold = 50;
 let goldWon = 0;
 let playerCritBonus = 0;
 let playerDodgeBonus = 0;
@@ -59,24 +59,28 @@ const champions = [
     {name: 'Bertrix', stats: [10, 1200, 4, 7, 0], unlocked: false, alive: true, gold: 500, experience: 500, character: ['<img src="bilder/bertrix.png">', '<img src="bilder/bertrixDead.png">', '<img src="bilder/characterLocked.png">']},
     {name: 'Foll', stats: [15, 1800, 10, 2, 15], unlocked: false, alive: true, gold: 750, experience: 750, character: ['<img src="bilder/foll.png">', '<img src="bilder/follDead.png">', '<img src="bilder/characterLocked.png">']},
     {name: 'Hank', stats: [20, 2220, 20, 2, 2], unlocked: false, alive: true, gold: 1000, experience: 1000, character: ['<img src="bilder/hank.png">', '<img src="bilder/hankDead.png">', '<img src="bilder/characterLocked.png">']},
-    {name: 'Whaler', stats: [25, 520, 15, 5, 7], unlocked: false, alive: true, gold: 1250, experience: 1250, character: ['<img src="bilder/whaler.png">', '<img src="bilder/whalerDead.png">', '<img src="bilder/characterLocked.png">']},
-    {name: 'Crank', stats: [35, 220, 30, 2, 2], unlocked: false, alive: true, gold: 1750, experience: 1750, character: ['<img src="bilder/crank.png">', '<img src="bilder/crankDead.png">', '<img src="bilder/characterLocked.png">']},
+    {name: 'Whaler', stats: [25, 2800, 15, 5, 7], unlocked: false, alive: true, gold: 1250, experience: 1250, character: ['<img src="bilder/whaler.png">', '<img src="bilder/whalerDead.png">', '<img src="bilder/characterLocked.png">']},
+    {name: 'Crank', stats: [35, 4000, 30, 2, 2], unlocked: false, alive: true, gold: 1750, experience: 1750, character: ['<img src="bilder/crank.png">', '<img src="bilder/crankDead.png">', '<img src="bilder/characterLocked.png">']},
     {name: 'Frank', stats: [50, 6000, 35, 5, 7], unlocked: false, alive: true, gold: 2500, experience: 2500, character: ['<img src="bilder/frank.png">', '<img src="bilder/frankDead.png">', '<img src="bilder/characterLocked.png">']},
     {name: 'Rixus', stats: [100, 12000, 50, 20, 20], unlocked: false, alive: true, gold: 5000, experience: 5000, character: ['<img src="bilder/rixus.png">', '<img src="bilder/rixusDead.png">', '<img src="bilder/characterLocked.png">']}
 ];
 
 
-// Store
+// Store | 1 = health, 2 = damage , 3 = dodge, 4 = crit |
 const storeItems = [
-    {item: 'Ring of Health', price: 100, type: 'health', look: '<img class="itemframe" src="bilder/Ring_of_Health.png">', value: 50, inStock: true},
-    {item: 'Blades of Attack', price: 200, type: 'damage', look: '<img class="itemframe" src="bilder/Blades_of_Attack.png">', value: 5, inStock: true},
-    {item: 'Gem of Vitality', price: 300, type: 'health', look: '<img class="itemframe" src="bilder/Gem_of_Vitiality.png">', value: 150, inStock: true},
-    {item: 'Necklace of Critical Strike', price: 400, type: 'critical', look: '<img class="itemframe" src="bilder/Necklace_Critical_Strike.png">', value: 10, inStock: true},
-    {item: 'Gauntlets of Strenght', price: 500, type: 'damage', look: '<img class="itemframe" src="bilder/Gauntlets_of_Strength.png">', value: 10, inStock: true},
-    {item: 'Boots of Reflexes', price: 600, type: 'dodge', look: '<img class="itemframe" src="bilder/Boots_Reflexes.png">', value: 10, inStock: true},
-    {item: 'name7', price: 100, type: 'health', look: '<img src="bilder/balder.png">', value: 20, inStock: true},
-    {item: 'name8', price: 200, type: 'damage', look: '<img src="bilder/balder.png">', value: 20, inStock: true},
-    {item: 'name9', price: 100, type: 'health', look: '<img src="bilder/balder.png">', value: 10, inStock: true},
+    {item: 'Gauntlets of Strenght', price: 100, type1: 'health', type2: 'damage', type3: '',type4: '', look: '<img class="itemframe" src="bilder/Gauntlets_of_Strength.png">', value1: 50, value2: 1,value3: '',value4: '', inStock: true, info: '+50 HP<br>+1 Dmg'},
+    {item: 'Slippers of Agility', price: 100, type1: '', type2: 'damage', type3: 'dodge',type4: '', look: '<img class="itemframe" src="bilder/Slippers_of_Agility.png">', value1: '', value2: 2,value3: 2,value4: '', inStock: true, info: '+2 Dmg<br>+2% DB'},
+    {item: 'Ring of Health', price: 200, type1: 'health', type2: '', type3: '',type4: '', look: '<img class="itemframe" src="bilder/Ring_of_Health.png">', value1: 100, value2: '',value3: '',value4: '', inStock: true, info: '+100 HP'},
+    {item: 'Buckler', price: 175, type1: 'health', type2: '', type3: 'dodge',type4: '', look: '<img class="itemframe" src="bilder/Buckler.png">', value1: 50, value2: 1,value3: 4,value4: '', inStock: true, info: '+50 HP<br>+4 DB'},
+    {item: 'Blades of Attack', price: 200, type1: '', type2: 'damage', type3: '',type4: 'crit', look: '<img class="itemframe" src="bilder/Blades_of_Attack.png">', value1: '', value2: 4,value3: '',value4: 2, inStock: true, info: '+4 Dmg<br>+2% CB'},
+    {item: 'Necklace of Swiftness', price: 250, type1: '', type2: '', type3: 'dodge',type4: 'crit', look: '<img class="itemframe" src="bilder/Necklace_Critical_Strike.png">', value1: '', value2: '',value3: 9,value4: 6, inStock: true, info: '+9% DB<br>+6% CB'},
+    {item: 'Gem of Vitality', price: 300, type1: 'health', type2: '', type3: '',type4: '', look: '<img class="itemframe" src="bilder/Gem_of_Vitiality.png">', value1: 150, 
+    value2: '',value3: '',value4: '', inStock: true, info: '+150 HP'},
+    {item: 'Boots of Reflexes', price: 450, type1: 'health', type2: '', type3: 'dodge',type4: '', look: '<img class="itemframe" src="bilder/Boots_Reflexes.png">', value1: 100, value2: '',value3: 12,value4: '', inStock: true, info: '+100 HP<br>+12% DB'},
+    {item: 'Crystalys', price: 500, type1: '', type2: 'damage', type3: '',type4: 'crit', look: '<img class="itemframe" src="bilder/Crystalys.png">', value1: '', value2: 20,value3: '',value4: 10, inStock: true, info: '+20 Dmg<br>+10% CB'},
+    {item: 'Satanic', price: 750, type1: 'health', type2: 'damage', type3: '',type4: '', look: '<img class="itemframe" src="bilder/Satanic.png">', value1: 500, value2: 30,value3: '',value4: '', inStock: true, info: '+500 HP<br>+30 Dmg'},
+    {item: 'Apex', price: 800, type1: 'health', type2: 'damage', type3: 'dodge',type4: 'crit', look: '<img class="itemframe" src="bilder/Apex.png">', value1: 3500, value2: 35,value3: 8,value4: 8, inStock: true, info: '+350 HP<br>+35 Dmg<br>8% DB<br>8% CB'},
+    {item: 'Mask of Madness', price: 2000, type1: 'health', type2: 'damage', type3: 'dodge',type4: 'crit', look: '<img class="itemframe" src="bilder/Mask_of_Madness.png">', value1: 1000, value2: 100,value3: 25,value4: 25, inStock: true, info: '+1000 HP<br>+100 Dmg<br>25% DB<br>25% CB'},
     ];
 
 
@@ -295,18 +299,18 @@ function purchaseItem(i) {
         //display not enough money
     }
     else {
-        if (storeItems[i].type == 'health') {
-            playerHP += storeItems[i].value;
+        if (storeItems[i].type1 == 'health') {
+            playerHP += storeItems[i].value1;
         }
-        if (storeItems[i].type == 'damage') {
-            playerDamageBonus += storeItems[i].value;
+        if (storeItems[i].type2 == 'damage') {
+            playerDamageBonus += storeItems[i].value2;
             calcPlayerDisplayDamage();
         }
-        if (storeItems[i].type == 'dodge') {
-            playerDodgeBonus += storeItems[i].value;
+        if (storeItems[i].type3 == 'dodge') {
+            playerDodgeBonus += storeItems[i].value3;
         }
-        if (storeItems[i].type == 'critical') {
-            playerCritBonus += storeItems[i].value;
+        if (storeItems[i].type4 == 'crit') {
+            playerCritBonus += storeItems[i].value4;
         }
         playerGold -= storeItems[i].price;
         storeItems[i].inStock = false;
