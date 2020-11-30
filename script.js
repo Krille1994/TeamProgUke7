@@ -109,8 +109,7 @@ function calcChampionDisplayDamage(i) {
 function calcPlayerGold(status) {
     if (!isTournament) {
         Gold = (4 + Math.floor(Math.random()*16)) * npcLevel;
-        if (status) {playerGold += Gold;}
-        else {Gold = 0;}
+        if (!status) {Gold = 0;}
     }
     else {
         if (status) {
